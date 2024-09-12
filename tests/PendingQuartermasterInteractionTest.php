@@ -1,11 +1,9 @@
 <?php
 
-use Glhd\Quartermaster\Tests\Stubs\FeatureMissingResolvers;
 use Glhd\Quartermaster\Tests\Stubs\IntBackedFeature;
 use Glhd\Quartermaster\Tests\Stubs\StringBackedFeature;
 use Glhd\Quartermaster\Tests\Stubs\UnbackedFeature;
 use Glhd\Quartermaster\Tests\TestCase;
-use Laravel\Pennant\Feature;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 class PendingQuartermasterInteractionTest extends TestCase

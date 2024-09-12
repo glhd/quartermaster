@@ -33,7 +33,7 @@ class EnumeratesFeaturesTest extends TestCase
 		FeatureMissingResolvers::register();
 		
 		$this->assertEquals(
-			expected: [FeatureMissingResolvers::Foo->name(), FeatureMissingResolvers::Bar->name()], 
+			expected: [FeatureMissingResolvers::Foo->name(), FeatureMissingResolvers::Bar->name()],
 			actual: Feature::defined()
 		);
 	}

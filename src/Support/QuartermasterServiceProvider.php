@@ -2,7 +2,6 @@
 
 namespace Glhd\Quartermaster\Support;
 
-use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 class QuartermasterServiceProvider extends ServiceProvider
