@@ -51,19 +51,19 @@ enum BillingFeatures
 {
     use EnumeratesFeatures;
     
-    case NextGenerationBillingPortal;
-    case LegacyBillingPortal;
+    case NextGenerationPortal;
+    case LegacyPortal;
     
     // Define a "resolver" for each feature:
     
-    public function resolveNextGenerationBillingPortal(?Team $team)
+    public function resolveNextGenerationPortal(Team $team)
     {
-        return $team?->owner->isEnrolledInBetaFeatures();
+        return $team->owner->isEnrolledInBetaFeatures();
     }
     
-    public function resolveLegacyBillingPortal(?Team $team)
+    public function resolveLegacyPortal(Team $team)
     {
-        return $team?->created_at->lt('2022-06-01');
+        return $team->created_at->lt('2022-06-01');
     }
 }
 ```
@@ -78,11 +78,11 @@ BillingFeatures::register();
 Then, you can call many Pennant methods from the enum directly:
 
 ```php
-if (BillingFeatures::NextGenerationBillingPortal->active()) {
+if (BillingFeatures::NextGenerationPortal->active()) {
     // Show next-gen billing portal
 }
 
-if (BillingFeatures::NextGenerationBillingPortal->inactive()) {
+if (BillingFeatures::NextGenerationPortal->inactive()) {
     // Show opt-in for beta features
 }
 ```
@@ -91,16 +91,48 @@ For many checks, you may need a scope. You can use the `for()` method
 on the enum to do scoped checks:
 
 ```php
-if (BillingFeatures::LegacyBillingPortal->for($team)->active()) {
+if (BillingFeatures::LegacyPortal->for($team)->active()) {
     // Show legacy billing portal
 }
 
 // Enable next-gen portal for team
-BillingFeatures::NextGenerationBillingPortal->for($team)->activate();
+BillingFeatures::NextGenerationPortal->for($team)->activate();
 
 // Disable next-gen portal for team
-BillingFeatures::NextGenerationBillingPortal->for($team)->deactivate();
+BillingFeatures::NextGenerationPortal->for($team)->deactivate();
 
 // Reset flag status for team
-BillingFeatures::NextGenerationBillingPortal->for($team)->forget();
+BillingFeatures::NextGenerationPortal->for($team)->forget();
+```
+
+### Using with class-based features
+
+Pennant already offers [class-based features](https://laravel.com/docs/11.x/pennant#class-based-features). 
+If you would like to use some of the Quartermaster convenience methods with
+this API, you can extend the `Glhd\Quartermaster\Feature` class:
+
+```php
+namespace App\Features;
+
+use Glhd\Quartermaster\Feature;
+
+class NextGenerationBillingPortal extends Feature
+{
+    public function resolve(Team $team)
+    {
+        return $team->owner->isEnrolledInBetaFeatures();
+    }
+}
+```
+
+Then you can call most of the same methods statically from this class:
+
+```php
+if (NextGenerationBillingPortal::active()) {
+    // Show next-gen portal
+}
+
+if (NextGenerationBillingPortal::for($team)->active()) {
+    // ...
+}
 ```

@@ -7,7 +7,6 @@ use Glhd\Quartermaster\Support\PendingQuartermasterInteraction;
 use Illuminate\Support\Str;
 use Laravel\Pennant\Feature;
 use LogicException;
-use UnitEnum;
 
 trait EnumeratesFeatures
 {
@@ -36,13 +35,9 @@ trait EnumeratesFeatures
 	
 	public function for(mixed $scope): PendingQuartermasterInteraction
 	{
-		if (! $this instanceof UnitEnum) {
-			throw new LogicException('EnumeratesFeatures must be used on an enum.');
-		}
-		
 		return new PendingQuartermasterInteraction(
 			pennant: Feature::for($scope),
-			enum: $this,
+			feature: $this->name(),
 		);
 	}
 	
