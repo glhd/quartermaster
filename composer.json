@@ -13,8 +13,9 @@
   "type": "library",
   "license": "MIT",
   "require": {
+    "ext-json": "*",
     "illuminate/support": "^10|^11|dev-master",
-    "ext-json": "*"
+    "laravel/pennant": "^1.11"
   },
   "require-dev": {
     "orchestra/testbench": "^8|^9|10.x-dev|dev-master",
